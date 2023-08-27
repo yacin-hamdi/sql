@@ -1,0 +1,29 @@
+SELECT RIGHT(website, 3) extension, COUNT(RIGHT(website, 3)) count
+FROM accounts
+GROUP BY 1;
+
+SELECT LEFT(name, 1) first_letter, COUNT(LEFT(name, 1))
+FROM accounts
+GROUP BY 1;
+
+
+SELECT SUM(num) nums, SUM(num_char) chars
+FROM (SELECT CASE WHEN LEFT(name, 1) NOT IN ('0','1','2','3','4','5','6','7','8','9') then 0 ELSE 1 END num,
+                CASE WHEN LEFT(name, 1) NOT IN ('0','1','2','3','4','5','6','7','8','9') THEN 1 ELSE 0 END num_char
+                FROM ACCOUNTS) t1;
+
+SELECT SUM(vowel), SUM(not_vowel)
+FROM(SELECT CASE WHEN LEFT(UPPER(name), 1) IN ('A', 'E', 'O', 'I', 'U') THEN 1 ELSE 0 END vowel,
+	CASE WHEN LEFT(UPPER(name), 1) IN ('A', 'E', 'O', 'I', 'U') THEN 0 ELSE 1 END not_vowel
+	FROM accounts) t1;
+
+
+*************************************************************************************************************
+
+SELECT LEFT(primary_poc, POSITION(' ' IN primary_poc) - 1) first_name, 
+	RIGHT(primary_poc,LENGTH(primary_poc) - STRPOS(primary_poc, ' ')) last_name
+FROM ACCOUNTS;
+
+SELECT LEFT(name, POSITION(' ' IN name) - 1) first_name, 
+	RIGHT(name,LENGTH(name) - STRPOS(name, ' ')) last_name
+FROM sales_reps;
